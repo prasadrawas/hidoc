@@ -1,0 +1,1 @@
+double mobileWidth = 900;
