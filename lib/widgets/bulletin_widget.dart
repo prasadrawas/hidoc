@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:hidoc/model/article/article.dart';
 import 'package:hidoc/res/app_strings.dart';
 import 'package:hidoc/res/app_text_styles.dart';
 import 'package:hidoc/widgets/bulletin.dart';
 
 class BulletinWidget extends StatelessWidget {
+  final List<ArticleClass> bulletins;
   final BoxConstraints constraints;
   const BulletinWidget(
     this.constraints, {
     super.key,
+    required this.bulletins,
   });
 
   @override
@@ -19,10 +22,15 @@ class BulletinWidget extends StatelessWidget {
           hidocButtin,
           style: AppTextStyles.largeBoldText(),
         ),
-        const Bulletin(),
-        const Bulletin(),
-        const Bulletin(),
-        const Bulletin()
+        ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: bulletins.length,
+          itemBuilder: (_, i) {
+            final bulletin = bulletins[i];
+            return Bulletin(bulletin: bulletin);
+          },
+        )
       ],
     );
   }

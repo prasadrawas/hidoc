@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hidoc/model/article/article.dart';
 import 'package:hidoc/res/app_colors.dart';
 import 'package:hidoc/res/app_text_styles.dart';
 import 'package:hidoc/widgets/app_text_button.dart';
@@ -6,8 +7,10 @@ import 'package:hidoc/widgets/app_text_button.dart';
 import '../res/app_strings.dart';
 
 class Bulletin extends StatelessWidget {
+  final ArticleClass? bulletin;
   const Bulletin({
     super.key,
+    required this.bulletin,
   });
 
   @override
@@ -28,7 +31,7 @@ class Bulletin extends StatelessWidget {
           ),
         ),
         Text(
-          lorem,
+          bulletin?.articleTitle ?? '',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           style: AppTextStyles.mediumBoldText(),
@@ -36,7 +39,7 @@ class Bulletin extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),
           child: Text(
-            lorem,
+            bulletin?.articleDescription ?? '',
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.smallLightText(),

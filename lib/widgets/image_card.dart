@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hidoc/model/article/article.dart';
 import 'package:hidoc/res/app_colors.dart';
 import 'package:hidoc/res/app_strings.dart';
 import 'package:hidoc/res/app_text_styles.dart';
@@ -7,10 +8,12 @@ import 'package:hidoc/res/dimens.dart';
 import 'package:hidoc/res/url_constants.dart';
 
 class ImageCard extends StatelessWidget {
+  final ArticleClass? article;
   final BoxConstraints constraints;
   const ImageCard(
     this.constraints, {
     super.key,
+    required this.article,
   });
 
   @override
@@ -37,7 +40,7 @@ class ImageCard extends StatelessWidget {
               horizontal: 10,
               vertical: constraints.maxWidth <= mobileWidth ? 15 : 40),
           child: Text(
-            lorem,
+            article?.articleTitle ?? '',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.regularSemiBoldText(),
@@ -46,7 +49,7 @@ class ImageCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Text(
-            lorem,
+            article?.articleDescription ?? '',
             style: AppTextStyles.smallLightText()
                 .copyWith(height: 1.7, fontStyle: FontStyle.italic),
             maxLines: 2,
@@ -72,7 +75,7 @@ class ImageCard extends StatelessWidget {
             Container(
               height: 70,
               width: 70,
-              margin: const EdgeInsets.only(top: 15),
+              margin: const EdgeInsets.only(top: 35),
               decoration: BoxDecoration(
                 color: buttonBlueColor,
                 borderRadius: const BorderRadius.only(
@@ -107,14 +110,18 @@ class ImageCard extends StatelessWidget {
         topRight: Radius.circular(10),
       ),
       child: CachedNetworkImage(
-        imageUrl: noImageFound,
+        imageUrl: article?.articleImg ?? '',
         width: constraints.maxWidth <= mobileWidth ? double.infinity : 350,
         placeholder: (context, url) => SizedBox(
-            height: 3,
-            child: LinearProgressIndicator(
-              color: buttonBlueColor,
-            )),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+          height: 3,
+          child: LinearProgressIndicator(
+            color: buttonBlueColor,
+          ),
+        ),
+        errorWidget: (context, url, error) => CachedNetworkImage(
+          imageUrl: noImageFound,
+          width: constraints.maxWidth <= mobileWidth ? double.infinity : 350,
+        ),
       ),
     );
   }

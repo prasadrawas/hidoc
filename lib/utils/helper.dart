@@ -1,5 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:hidoc/res/app_strings.dart';
+import 'package:logger/logger.dart';
+
+Logger logger = Logger(printer: PrettyPrinter(methodCount: 0, colors: true));
+
+void printLogValue(String value) {
+  logger.d(value);
+}
+
+Widget progressWidget() {
+  return const Center(
+    child: CircularProgressIndicator(),
+  );
+}
 
 List<String> _category = [
   'Critical Care',
@@ -34,5 +47,17 @@ void openCategoryListDialog(
         ),
       );
     },
+  );
+}
+
+void showErrorSnackBar(
+  BuildContext context,
+  String message,
+) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+    ),
   );
 }

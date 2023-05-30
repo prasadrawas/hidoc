@@ -1,11 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hidoc/model/article/article.dart';
 import 'package:hidoc/res/app_strings.dart';
 import 'package:hidoc/res/app_text_styles.dart';
 import 'package:hidoc/res/url_constants.dart';
 
+import '../res/app_colors.dart';
+
 class TrendingArticles extends StatelessWidget {
+  final List<ArticleClass> articles;
   const TrendingArticles({
     super.key,
+    required this.articles,
   });
 
   @override
@@ -24,7 +30,7 @@ class TrendingArticles extends StatelessWidget {
               style: AppTextStyles.largeBoldText(),
             ),
           ),
-          Padding(
+          /* Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Image.network(
               noImageFound,
@@ -39,32 +45,49 @@ class TrendingArticles extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.smallLightText(),
             ),
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (_, i) {
-              return ListTile(
-                leading: Image.network(
-                  noImageFound,
-                  height: 80,
+          ),*/
+          const Divider(),
+          articles.isEmpty
+              ? const Center(
+                  child: Text('No data found'),
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: articles.length,
+                  itemBuilder: (_, i) {
+                    return ListTile(
+                      leading: CachedNetworkImage(
+                        imageUrl: articles[i].articleImg ?? '',
+                        width: 80,
+                        placeholder: (context, url) => SizedBox(
+                          height: 1,
+                          child: LinearProgressIndicator(
+                            color: buttonBlueColor,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            CachedNetworkImage(
+                          imageUrl: noImageFound,
+                          width: 80,
+                        ),
+                      ),
+                      title: Text(
+                        articles[i].articleDescription ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.smallLightText(),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      child: Divider(),
+                    );
+                  },
                 ),
-                title: Text(
-                  lorem,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextStyles.smallLightText(),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: Divider(),
-              );
-            },
-          ),
           const SizedBox(height: 15),
         ],
       ),

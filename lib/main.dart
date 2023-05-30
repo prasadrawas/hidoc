@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hidoc/di/locator.dart';
 import 'package:hidoc/res/app_strings.dart';
-import 'package:hidoc/screens/home_screen.dart';
+import 'package:hidoc/screens/home/home_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  setupLocator();
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   SystemChrome.setPreferredOrientations(

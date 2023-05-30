@@ -45,6 +45,7 @@ class Features extends StatelessWidget {
                   child: Text(
                     lorem,
                     maxLines: 2,
+                    textAlign: TextAlign.start,
                     style:
                         AppTextStyles.smallLightText().copyWith(fontSize: 10),
                   )),
